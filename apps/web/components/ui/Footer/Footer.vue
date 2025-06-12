@@ -45,7 +45,7 @@ import type { FooterProps } from './types';
 
 const storename: string = useRuntimeConfig().public.storename;
 
-const companyName: string = `© ${storename} ${new Date().getFullYear()}`;
+const companyName: string = `© ${storename} ${new Date().getFullYear()}. Alle Rechte vorbehalten.`;
 
 const { simplifiedFooter = false } = defineProps<FooterProps>();
 
