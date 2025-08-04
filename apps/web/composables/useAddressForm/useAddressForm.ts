@@ -1,6 +1,6 @@
-import { type Address, type AddressType, cartGetters, shippingProviderGetters } from '@plentymarkets/shop-api';
+import { type Address, AddressType, cartGetters, shippingProviderGetters } from '@plentymarkets/shop-api';
 import { toTypedSchema } from '@vee-validate/yup';
-import { object, string, boolean } from 'yup';
+import { boolean, object, string } from 'yup';
 
 export const useAddressForm = (type: AddressType) => {
   const { create } = useCreateAddress(type);
@@ -103,6 +103,17 @@ export const useAddressForm = (type: AddressType) => {
     await Promise.all([getSession(), getShippingMethods(), fetchPaymentMethods()]);
     notifyIfShippingChanged();
     notifyIfBillingChanged();
+
+    const { hasCheckoutAddress: hasBillingAddress, set: setBillingAddress } = useCheckoutAddress(AddressType.Billing);
+
+    if (
+      type === AddressType.Shipping &&
+      !hasBillingAddress &&
+      cartData.value.customerInvoiceAddressId === cartData.value.customerShippingAddressId
+    ) {
+      const { checkoutAddress: shippingAddress } = useCheckoutAddress(AddressType.Shipping);
+      await setBillingAddress(shippingAddress.value, true);
+    }
   };
 
   return {
