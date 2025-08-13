@@ -30,7 +30,7 @@
     <div class="bg-neutral-900" data-testid="section-bottom">
       <div class="text-sm py-10 md:py-6 px-10 text-right">
         <p class="text-white/50">
-          {{ companyName }}
+          {{ companyName }} - Development {{ new Date().toLocaleString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) }}
         </p>
       </div>
     </div>
